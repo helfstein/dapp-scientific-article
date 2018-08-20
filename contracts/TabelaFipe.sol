@@ -15,19 +15,19 @@ contract TabelaFipe is usingOraclize {
     event newOraclizeQuery(string description);
     event resultMarcaCarro(string marca);
 
-    function artigo() {
+    function artigo() public {
         consultar();
     }
     
-    function __callback(bytes32 myid, string result) {
+    function __callback(bytes32 myid, string result) public {
         if (msg.sender != oraclize_cbAddress())
-            throw;
+            revert(");
         marca = result;
-        resultMarcaCarro(marca);
+        emit resultMarcaCarro(marca);
     }
     
-    function consultar() payable {
-        newOraclizeQuery("Consutar Tabela Fipe");
+    function consultar() public payable {
+        emit newOraclizeQuery("Consutar Tabela Fipe");
         oraclize_query("URL", "json(http://fipeapi.appspot.com/api/1/carros/veiculo/21/4828/2013-1.json).marca");
     }
 } 

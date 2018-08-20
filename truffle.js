@@ -1,6 +1,6 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
 var infura_apikey = "JkrmaMjx2Q9kIQ95ydgl";
-var mnemonic = "rude bright planet anchor cousin shadow laptop tribe oval purchase tower small";
+var mnemonic = "pony quit picture rain hood lawn initial orange fit physical nasty kick";
 module.exports = {
   networks: {
     development: {
