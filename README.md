@@ -17,6 +17,6 @@ Argument below must be explicited informed on command: --rpc --rpcapi="db,eth,ne
 If you are trying to migrate a new contract to the private network and get the following erro: 'Running migration: 1_initial_migration.js Deploying Migrations... Migrations: 0xSomeAddress Saving successful migration to network... Error encountered, bailing. Network state unknown. Review successful transactions manually. Error: account is locked' You must unlock your geth account. Simply by putting '--unlock 0', where '0' represents your first account (coinbase) on Geth Wallet.
 
 For more information go to: 
-*Command Line Options: https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options 
-*Mining: https://github.com/ethereum/go-ethereum/wiki/mining
-*Managing your accounts: https://github.com/ethereum/go-ethereum/wiki/Managing-your-accounts
+-Command Line Options: https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options 
+-Mining: https://github.com/ethereum/go-ethereum/wiki/mining
+-Managing your accounts: https://github.com/ethereum/go-ethereum/wiki/Managing-your-accounts
