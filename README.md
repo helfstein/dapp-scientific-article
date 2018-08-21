@@ -1,5 +1,3 @@
-# dapp-scientific-article
-
 Quick start guide to initialize a new private network with Geth
 
 # Setting up your Ethereum private Network
