@@ -21,7 +21,7 @@ contract TabelaFipe is usingOraclize {
     
     function __callback(bytes32 myid, string result) public {
         if (msg.sender != oraclize_cbAddress())
-            revert(");
+            revert("");
         marca = result;
         emit resultMarcaCarro(marca);
     }
