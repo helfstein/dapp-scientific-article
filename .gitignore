@@ -38,3 +38,6 @@ testem.log
 .DS_Store
 Thumbs.db
 /node_modules
+/etherumbridgenode/node_modules
+/src/node_modules
+/src/dapp/node_modules
