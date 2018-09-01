@@ -2,8 +2,9 @@ pragma solidity ^0.4.24;
 
 import "../installed_contracts/oraclize-api/contracts/usingOraclize.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 
-contract ArticleContract is usingOraclize, Ownable {
+contract ArticleContract is usingOraclize, Ownable, ERC721Token {
 //==========================================================================
     //It will represents a single scientific article
     struct Article {
