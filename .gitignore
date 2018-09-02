@@ -44,3 +44,6 @@ Thumbs.db
 /ethereumbridgenode/node_modules
 /src/build
 /src/build
+/api/ArticleDapps.Api/ArticleDapps.Api/obj
+/api/ArticleDapps.Api/ArticleDapps.Api/bin
+/api/ArticleDapps.Api/.vs

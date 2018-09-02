@@ -3,9 +3,12 @@ pragma solidity ^0.4.24;
 import "../installed_contracts/oraclize-api/contracts/usingOraclize.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
+import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract ArticleContract is usingOraclize, Ownable, ERC721Token {
 //==========================================================================
+
+    using SafeMath for uint256;
     //It will represents a single scientific article
     struct Article {
         string title; //represents a title
