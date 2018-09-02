@@ -22,9 +22,11 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     event CallbackReceived(string result);
 
     //----------------------------------------------------------------------------
-    constructor(address _oarAddress) public payable{
+    constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
+    
         OAR = OraclizeAddrResolverI(_oarAddress);
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
+        
     }
     //----------------------------------------------------------------------------
     function __callback(bytes32 id, string result, bytes proof) public {
