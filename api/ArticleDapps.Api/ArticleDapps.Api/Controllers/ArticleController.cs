@@ -9,11 +9,13 @@ namespace ArticleDapps.Api.Controllers {
         [HttpPost]
         public JsonResult Post(Article artice) {
             var result = new {
-                accepted = false
+                accepted = false,
+                issn = artice.ISSN  
             };
             if (!string.IsNullOrWhiteSpace(artice.ISSN) && artice.ISSN.Length > 3) {
                 result = new {
-                    accepted = true
+                    accepted = true,
+                    issn = artice.ISSN
                 };
             }
 

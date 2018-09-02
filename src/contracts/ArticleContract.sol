@@ -24,21 +24,21 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     }
 
     mapping(uint => mapping(uint => Article)) data;
-    
+
     event ArticleResponse(string result);
 
     //----------------------------------------------------------------------------
     constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
-    
+
         OAR = OraclizeAddrResolverI(_oarAddress);
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
-        
+
     }
     //----------------------------------------------------------------------------
     function __callback(bytes32 id, string result, bytes proof) public {
         require(msg.sender == oraclize_cbAddress(), "This address is not a valid coinbase");
 
-        emit ArticleResponse(result);        
+        emit ArticleResponse(result);
     }
     //----------------------------------------------------------------------------
     // Fallback function
@@ -52,7 +52,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         var b = "', 'author': '";
         var c = "'}";
         var payload = strConcat(a, issn, b, author, c);
-        oraclize_query("URL", "json(https://localhost:5001/api/article).accepted", payload);            
+        oraclize_query("URL", "json(https://localhost:5001/api/article)", payload);
     }
 //==========================================================================
 }
