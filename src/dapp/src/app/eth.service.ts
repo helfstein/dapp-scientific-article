@@ -17,7 +17,7 @@ export class EthService {
 
   private web3Provider: null;
   private contract: TruffleContract;
-
+  private account: any;
   public result: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor() {
@@ -44,13 +44,26 @@ export class EthService {
       });
 
     });
+    this.setAccount();
+  }
+
+  private setAccount() {
+    const self = this;
+    web3.eth.getAccounts(function(err, accs) {
+      if (err != null || accs.length === 0) {
+        return 'no accounts found';
+      }
+      self.account = accs[0];
+    });
   }
 
   publishArticle(issn: string, author: string) {
     const self = this;
     return new Promise((resolve, reject) => {
       self.contract.deployed().then(instance => {
-        return instance.publishArticle.send(issn, author);
+        return instance.publishArticle(issn, author, {
+          from: self.account
+        });
       }).then(function(value) {
         if (value) {
           return resolve(value);
@@ -62,7 +75,5 @@ export class EthService {
       });
     });
   }
-  }
-
 
 }

@@ -1,12 +1,12 @@
 <h2>Publicar Artigo</h2>
 <label for="txtISSN">ISSN:</label>
-<input id="txtISSN" type="text" ng-Model="issn"/>
+<input id="txtISSN" type="text" [(value)]="issn"/>
 <br/>
 <label for="txtAuthor">Author:</label>
-<input id="txtAuthor" type="text" ng-Model="author"/>
+<input id="txtAuthor" type="text" [(value)]="author"/>
 <button type="button" (click)="publishArticle($event)">Publicar</button>
 <h3>Result:</h3>
-<textarea cols="20" rows="10" style="width: 300px; height: 150px;" ng-Model="resultado" ></textarea>
+<textarea cols="20" rows="10" style="width: 300px; height: 150px;" [(value)]="resultado" ></textarea>
 
 
 

@@ -48,11 +48,18 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     //----------------------------------------------------------------------------
     function publishArticle(string issn, string author) public payable {
         // oraclize_query("URL", datasource, _article.issn);
-        var a = "{'issn': '";
-        var b = "', 'author': '";
-        var c = "'}";
-        var payload = strConcat(a, issn, b, author, c);
-        oraclize_query("URL", "json(https://localhost:5001/api/article)", payload);
+        //var url = '[json(https://articledapp.azurewebsites.net/api/article).result, {issn : "';
+        //var a = '';
+        //var b = '", author: "';
+        //var c = '"}]';
+        //var payload = strConcat(url, issn, b, author, c);
+        //var url = ;
+        //oraclize_query("URL", payload);
+        oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data", ' {"issn" : "111", "author": "eu"}');
+        //oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).accepted");
+        //oraclize_query("URL", "json(https://shapeshift.io/sendamount).success.deposit",
+         //   '{"pair":"eth_btc","amount":"1","withdrawal":"1AAcCo21EUc1jbocjssSQDzLna9Vem2UN5"}')
+        //oraclize_query("URL", "json(https://api.coinbase.com/v2/prices/ETH-USD/spot)");
     }
 //==========================================================================
 }

@@ -21,7 +21,7 @@ export class AppComponent {
   publishArticle(event) {
     this.ethcontractService.publishArticle(this.issn, this.author).then(function(status) {
       console.log(status);
-      this.initDisplay();
+      //this.initDisplay();
     }).catch(function(error) {
       console.log(error);
     });
