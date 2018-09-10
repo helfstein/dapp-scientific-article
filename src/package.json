@@ -4,6 +4,7 @@
   "description": "Quick start guide to initialize a new private network with Geth",
   "main": "index.js",
   "scripts": {
+    "deploy": "truffle migrate --compile-all --reset",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

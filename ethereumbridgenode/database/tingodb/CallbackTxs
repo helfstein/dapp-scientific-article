@@ -1,0 +1,3 @@
+{"k":"0000000078","o":"0000000559","v":"001"}
+{"_id":2,"_uid":2,"_dt":1536582173382,"_s":"8520b9d1930ebfd8c378052efd104f69"}
+{"tx_hash":"0x197dfe8cb85b7caa4313876334a964954bf19207a7491135697c0be8d7b33d68","oar":"0x6f485c8bf6fc43ea212e93bbf8ce046c7f1cb475","connector":"0x7618d23048b244f8543382b8e84b387dcc15f123","cbAddress":"0xbfccbadf899efa8bacf30fa635168d2aaa3770e4","contract_myid":"0xe28be893bdc8120fab46ef24f3e5f7848b73baf4c9a0cd9002d1105e81bbe093","result":"{\"accepted\": true, \"issn\": \"\"}","proof":"","gas_limit":36433,"errors":false,"timestamp_db":"1536582173375","tx_confirmed":false,"tx_confirmed_block_hash":null,"bridge_version":"0.6.1","_id":{"$wrap":"$oid","v":2}}

@@ -48,11 +48,12 @@
   },
   "scripts": {
     "update": "git pull origin master && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bridge -a 2 -H 127.0.0.1 -p 7545"
   },
   "engines": {
     "node": ">=5.0.0"
-  },  
+  },
   "author": "Oraclize Ltd.",
   "license": "AGPL-3.0"
 }
