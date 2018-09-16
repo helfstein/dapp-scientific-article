@@ -5,16 +5,20 @@
   "main": "index.js",
   "scripts": {
     "setup": "cd ./ethereum-bridge/ && npm i && cd ../smart-contracts/ && npm i",
-    "start-ganache": "ganache-cli -h 172.0.0.1 -p 7545 -s abcd -e 1000 -s -u 0 -u 1 -u 2",
-    "start-oraclize": "cd ./ethereum-bridge && node bridge -a 2 -H 127.0.0.1 -p 7545",
-    "migrate": "cd ./smart-contracts && truffle migrate --compile-all --reset"
-
+    "start-ganache": "ganache-cli -s abcd -e 1000 -h localhost -p 7545 -s -u 0 -u 1 -u 2",
+    "start-bridge": "cd ./ethereum-bridge && node bridge -a 2 -H localhost -p 7545",
+    "migrate": "cd ./smart-contracts && truffle migrate --compile-all --reset && node ./scripts/move-contract-artifacts-to-ui.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ptckz/dapp-scientific-article.git"
   },
-  "author": "",
+  "dependencies": {
+    "copy-dir": "^0.3.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2"
+  },
+  "author": "helfstein",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ptckz/dapp-scientific-article/issues"

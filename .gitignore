@@ -47,3 +47,5 @@ Thumbs.db
 /api/ArticleDapps.Api/ArticleDapps.Api/obj
 /api/ArticleDapps.Api/ArticleDapps.Api/bin
 /api/ArticleDapps.Api/.vs
+/smart-contracts/node_modules
+/ethereum-bridge/node_modules
