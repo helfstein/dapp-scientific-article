@@ -4,7 +4,7 @@
 /dist
 /tmp
 /out-tsc
-
+!ethereum-bridge/*
 # dependencies
 /node_modules
 
@@ -38,11 +38,8 @@ testem.log
 .DS_Store
 Thumbs.db
 /node_modules
-/etherumbridgenode/node_modules
 /src/node_modules
 /src/dapp/node_modules
-/ethereumbridgenode/node_modules
-/src/build
 /src/build
 /api/ArticleDapps.Api/ArticleDapps.Api/obj
 /api/ArticleDapps.Api/ArticleDapps.Api/bin
