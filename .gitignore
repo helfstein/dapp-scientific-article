@@ -49,3 +49,4 @@ Thumbs.db
 /api/ArticleDapps.Api/.vs
 /smart-contracts/node_modules
 /ethereum-bridge/node_modules
+/smart-contracts/build

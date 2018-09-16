@@ -2,12 +2,12 @@
   "name": "dapp-scientific-article",
   "version": "1.0.0",
   "description": "Quick start guide to initialize a new private network with Geth",
-  "main": "index.js",
+  
   "scripts": {
     "setup": "cd ./ethereum-bridge/ && npm i && cd ../smart-contracts/ && npm i",
     "start-ganache": "ganache-cli -s abcd -e 1000 -h localhost -p 7545 -s -u 0 -u 1 -u 2",
     "start-bridge": "cd ./ethereum-bridge && node bridge -a 2 -H localhost -p 7545",
-    "migrate": "cd ./smart-contracts && truffle migrate --compile-all --reset && node ./scripts/move-contract-artifacts-to-ui.js"
+    "migrate": "cd ./smart-contracts && truffle migrate --compile-all --reset"
   },
   "repository": {
     "type": "git",
