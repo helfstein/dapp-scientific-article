@@ -4,11 +4,11 @@
   "description": "Quick start guide to initialize a new private network with Geth",
   "main": "index.js",
   "scripts": {
-    "setup": "cd ./ethereumbridgenode && npm i && cd ../src && npm i && cd dapp && npm i -f",
-    "start-ganache": "ganache-cli -p 7545 --seed abcd --defaultBalanceEther 1000",
-    "start-oraclize": "cd ./ethereumbridgenode && npm run start",
-    "migrate": "cd ./src && npm run deploy",
-    "start-ui": "cd ./src/dapp && ng serve"
+    "setup": "cd ./ethereum-bridge/ && npm i && cd ../smart-contracts/ && npm i",
+    "start-ganache": "ganache-cli -h 172.0.0.1 -p 7545 -s abcd -e 1000 -s -u 0 -u 1 -u 2",
+    "start-oraclize": "cd ./ethereum-bridge && node bridge -a 2 -H 127.0.0.1 -p 7545",
+    "migrate": "cd ./smart-contracts && truffle migrate --compile-all --reset"
+
   },
   "repository": {
     "type": "git",
