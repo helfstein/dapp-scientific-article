@@ -21,10 +21,11 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         string description; //a brief description for the article
         string filePath; //the directory where the article will be storage     
         uint price;   
-        bool aproved;
+        bool approved;
     }
 
     mapping (uint => address) public articleToOwner;
+    mapping (bytes32 => uint) public pendingArticlesValidation;
 
     Article[] private articles;
 
@@ -44,7 +45,9 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         //change contract state
         if (keccak256(abi.encodePacked(_result)) == keccak256("true")) {
             //approves article
-            
+            Article article = articles[pendingArticlesValidation[_id]];
+            article.approved = true;
+            emit ArticleApproved(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
         }
         else{
             //reject article and informs his owner
@@ -64,17 +67,20 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         string memory b = strConcat(_author, "', 'category': '", _category, "', 'description': '");
         string memory c = strConcat(_description, "'}");
         string memory payload = strConcat(a, b, c);
-        _createArticle(_title, _author, _issn, _category, _description, _filePath, _price);
-        oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
+        uint id = _createArticle(_title, _author, _issn, _category, _description, _filePath, _price);
+        bytes32 queryId = oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
+        
+        pendingArticlesValidation[queryId] = id;
             
     }
     //----------------------------------------------------------------------------
     function _createArticle(
         string _title, string _author, string _issn, string _category, 
-        string _description, string _filePath, uint _price) internal {
+        string _description, string _filePath, uint _price) internal returns (uint) {
 
         uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false)) - 1;
-        articleToOwner[id] = msg.sender;            
+        articleToOwner[id] = msg.sender;     
+        return id;       
     }
 
 //==========================================================================
