@@ -19,14 +19,18 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         string issn; //8 digit number for identify and validate the article ISSN (International Standard Serial Number)
         string category;
         string description; //a brief description for the article
-        string filePath; //the directory where the article will be storage
-        address articleAddress;
+        string filePath; //the directory where the article will be storage     
+        uint price;   
+        bool aproved;
     }
 
-    mapping(uint => mapping(uint => Article)) data;
+    mapping (uint => address) public articleToOwner;
 
-    event ArticleResponse(string result);
+    Article[] private articles;
 
+    event NewArticle(uint articleId, string title, string author, string issn, string category, string description, uint price);
+    event ArticleApproved(uint articleId, string title, string author, string issn, string category, string description, uint price);
+    event ArticleRejected(uint articleId, string title, string author, string issn, string category, string description, uint price);
     //----------------------------------------------------------------------------
     constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
@@ -35,10 +39,16 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
 
     }
     //----------------------------------------------------------------------------
-    function __callback(bytes32 id, string result, bytes proof) public {
+    function __callback(bytes32 _id, string _result, bytes _proof) public {
         require(msg.sender == oraclize_cbAddress(), "This address is not a valid coinbase");
-
-        emit ArticleResponse(result);
+        //change contract state
+        if (keccak256(abi.encodePacked(_result)) == keccak256("true")) {
+            //approves article
+            
+        }
+        else{
+            //reject article and informs his owner
+        }
     }
     //----------------------------------------------------------------------------
     // Fallback function
@@ -46,21 +56,26 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         revert("reverted");
     }
     //----------------------------------------------------------------------------
-    function publishArticle(string issn, string author) public payable {
-        // oraclize_query("URL", datasource, _article.issn);
-        //var url = '[json(https://articledapp.azurewebsites.net/api/article).result, {issn : "';
-        var a = ' {"issn" : "';
-        var b = '", "author": "';
-        var c = '"}';
-        var payload = strConcat(a, issn, b, author, c);
-        //var url = ;
-        //oraclize_query("URL", payload);
-        oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data", payload);
-        //oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data", ' {"issn" : "111", "author": "eu"}');
-        //oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).accepted");
-        //oraclize_query("URL", "json(https://shapeshift.io/sendamount).success.deposit",
-         //   '{"pair":"eth_btc","amount":"1","withdrawal":"1AAcCo21EUc1jbocjssSQDzLna9Vem2UN5"}')
-        //oraclize_query("URL", "json(https://api.coinbase.com/v2/prices/ETH-USD/spot)");
+    function publishArticle(
+        string _title, string _author, string _issn, string _category,   
+        string _description, string _filePath, uint _price) public payable {
+        
+        string memory a = strConcat(" { 'title': '", _title, "', 'issn': '", _issn, "', 'author': '");
+        string memory b = strConcat(_author, "', 'category': '", _category, "', 'description': '");
+        string memory c = strConcat(_description, "'}");
+        string memory payload = strConcat(a, b, c);
+        _createArticle(_title, _author, _issn, _category, _description, _filePath, _price);
+        oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
+            
     }
+    //----------------------------------------------------------------------------
+    function _createArticle(
+        string _title, string _author, string _issn, string _category, 
+        string _description, string _filePath, uint _price) internal {
+
+        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false)) - 1;
+        articleToOwner[id] = msg.sender;            
+    }
+
 //==========================================================================
 }

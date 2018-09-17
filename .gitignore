@@ -47,5 +47,5 @@ Thumbs.db
 /smart-contracts/node_modules
 /ethereum-bridge/node_modules
 /smart-contracts/build
-/ethereum-bridge/*.log
+/ethereum-bridge/bridge.log
 /ethereum-bridge/config/instance
