@@ -55,6 +55,9 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         Article storage article = articles[articleID];
         article.readers[article.numReaders++] = Buyer({walletAddress: msg.sender, amount: msg.value});
         article.amount += msg.value;
+        address _articleOwner = articleToOwner[articleID];        
+        _articleOwner.transfer(msg.value);
+
     }
     //----------------------------------------------------------------------------
     function __callback(bytes32 _id, string _result, bytes _proof) public {
