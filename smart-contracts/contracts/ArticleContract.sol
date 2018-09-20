@@ -13,15 +13,25 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     using StringUtils for *;
 
     //It will represents a single scientific article
+    //Represents the buyer of the Article
+    struct Buyer {
+        address walletAddress; // (msg.sender)
+        uint amount; //total amount (msg.value)
+    }
+
+    //It will represents a single scientific article
     struct Article {
         string title; //represents a title
         string author; //author name
         string issn; //8 digit number for identify and validate the article ISSN (International Standard Serial Number)
         string category;
         string description; //a brief description for the article
-        string filePath; //the directory where the article will be storage     
-        uint price;   
+        string filePath; //the directory where the article will be storage
+        uint price;
         bool approved;
+        uint numReaders;
+        uint amount;
+        mapping (uint => Buyer) readers; //represents a set of address that can read the article
     }
 
     mapping (uint => address) public articleToOwner;
@@ -40,12 +50,19 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
 
     }
     //----------------------------------------------------------------------------
+    //buy a new article with a wallet address paying a amount for the owner of the scientific article
+    function buyArticle(uint articleID) public payable {
+        Article storage article = articles[articleID];
+        article.readers[article.numReaders++] = Buyer({walletAddress: msg.sender, amount: msg.value});
+        article.amount += msg.value;
+    }
+    //----------------------------------------------------------------------------
     function __callback(bytes32 _id, string _result, bytes _proof) public {
         require(msg.sender == oraclize_cbAddress(), "This address is not a valid coinbase");
         //change contract state
         if (keccak256(abi.encodePacked(_result)) == keccak256("true")) {
             //approves article
-            Article article = articles[pendingArticlesValidation[_id]];
+            Article storage article = articles[pendingArticlesValidation[_id]];
             article.approved = true;
             emit ArticleApproved(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
         }
@@ -78,7 +95,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         string _title, string _author, string _issn, string _category, 
         string _description, string _filePath, uint _price) internal returns (uint) {
 
-        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false)) - 1;
+        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false, 0, 0)) - 1;
         articleToOwner[id] = msg.sender;     
         return id;       
     }
