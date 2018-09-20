@@ -29,13 +29,19 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         string filePath; //the directory where the article will be storage
         uint price;
         bool approved;
-        uint numReaders;
+        uint numBuyers;
         uint amount;
-        mapping (uint => Buyer) readers; //represents a set of address that can read the article
+        mapping (uint => Buyer) buyers; //represents a set of address that can read the article
+        mapping (address => uint) addressToBuyer;
     }
 
     mapping (uint => address) public articleToOwner;
     mapping (bytes32 => uint) public pendingArticlesValidation;
+
+    modifier onlyBuyerOf(uint _articleId) {
+        require(articles[_articleId].addressToBuyer[msg.sender] > 0);
+        _;
+    }
 
     Article[] private articles;
 
@@ -53,7 +59,9 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     //buy a new article with a wallet address paying a amount for the owner of the scientific article
     function buyArticle(uint articleID) public payable {
         Article storage article = articles[articleID];
-        article.readers[article.numReaders++] = Buyer({walletAddress: msg.sender, amount: msg.value});
+        uint _buyerId = article.numBuyers++;
+        article.buyers[_buyerId] = Buyer({walletAddress: msg.sender, amount: msg.value});
+        article.addressToBuyer[msg.sender] = _buyerId;
         article.amount += msg.value;
         address _articleOwner = articleToOwner[articleID];        
         _articleOwner.transfer(msg.value);
