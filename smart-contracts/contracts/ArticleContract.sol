@@ -59,7 +59,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     }
     //----------------------------------------------------------------------------
     //buy a new article with a wallet address paying a amount for the owner of the scientific article
-    function buyArticle(uint articleID) public payable {
+    function buyArticle(uint articleID) public payable returns (uint) {
         Article storage article = articles[articleID];
         uint _buyerId = article.numBuyers++;
         article.buyers[_buyerId] = Buyer({walletAddress: msg.sender, amount: msg.value});
@@ -67,7 +67,8 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         article.amount += msg.value;
         address _articleOwner = articleToOwner[articleID];        
         _articleOwner.transfer(msg.value);
-        emit ArticleBuyed(articleID, address(msg.sender));
+        //emit ArticleBuyed(articleID, address(msg.sender));
+        return (_buyerId);
     }
     //----------------------------------------------------------------------------
     function getArticle(uint articleID) public onlyBuyerOf(articleID) returns (string, string, string, 
@@ -119,7 +120,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     //----------------------------------------------------------------------------
     function publishArticle(
         string _title, string _author, string _issn, string _category,   
-        string _description, string _filePath, uint _price) public payable {
+        string _description, string _filePath, uint _price) public payable returns(uint){
         
         string memory a = strConcat(" { 'title': '", _title, "', 'issn': '", _issn, "', 'author': '");
         string memory b = strConcat(_author, "', 'category': '", _category, "', 'description': '");
@@ -129,7 +130,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         bytes32 queryId = oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
         
         pendingArticlesValidation[queryId] = id;
-            
+        return(id);
     }
     //----------------------------------------------------------------------------
     function _createArticle(
