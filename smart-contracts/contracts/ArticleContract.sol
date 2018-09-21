@@ -39,7 +39,8 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     mapping (bytes32 => uint) public pendingArticlesValidation;
 
     modifier onlyBuyerOf(uint _articleId) {
-        require(articles[_articleId].addressToBuyer[msg.sender] > 0);
+        uint _buyerId = articles[_articleId].addressToBuyer[msg.sender];
+        require(_buyerId > 0);
         _;
     }
 
@@ -66,6 +67,18 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         address _articleOwner = articleToOwner[articleID];        
         _articleOwner.transfer(msg.value);
 
+    }
+    //----------------------------------------------------------------------------
+    function getArticle(uint articleID) public onlyBuyerOf(articleID) returns (string, string, string, 
+        string, string, uint, bool) {
+        Article memory a = articles[articleID];
+                
+        return (a.title, a.author, a.author, a.category, a.description, a.price, a.approved);
+    }
+    //----------------------------------------------------------------------------
+    function getArticleDetails(uint articleID) public onlyBuyerOf(articleID) returns (string, uint, uint){
+        Article memory a = articles[articleID];
+        return (a.filePath, a.amount, a.numBuyers);
     }
     //----------------------------------------------------------------------------
     function __callback(bytes32 _id, string _result, bytes _proof) public {
