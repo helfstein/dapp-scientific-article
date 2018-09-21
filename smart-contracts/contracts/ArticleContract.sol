@@ -49,6 +49,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
     event NewArticle(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleApproved(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleRejected(uint articleId, string title, string author, string issn, string category, string description, uint price);
+    event ArticleBuyed(uint articleId, address buyer);
     //----------------------------------------------------------------------------
     constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
@@ -66,7 +67,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         article.amount += msg.value;
         address _articleOwner = articleToOwner[articleID];        
         _articleOwner.transfer(msg.value);
-
+        emit ArticleBuyed(articleID, address(msg.sender));
     }
     //----------------------------------------------------------------------------
     function getArticle(uint articleID) public onlyBuyerOf(articleID) returns (string, string, string, 
@@ -74,6 +75,22 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         Article memory a = articles[articleID];
                 
         return (a.title, a.author, a.author, a.category, a.description, a.price, a.approved);
+    }
+    //----------------------------------------------------------------------------
+    function getBuyedArticles() public returns (uint[]) {
+        
+        uint[] memory articleIds;
+        uint pos = 0;
+        for (uint i = 0; i < articles.length; i++) {
+            Article article = articles[i];
+            if (article.addressToBuyer[msg.sender] > 0) {
+                articleIds[pos] = i;
+                pos++;
+            }
+        }         
+
+        return(articleIds);
+
     }
     //----------------------------------------------------------------------------
     function getArticleDetails(uint articleID) public onlyBuyerOf(articleID) returns (string, uint, uint){
