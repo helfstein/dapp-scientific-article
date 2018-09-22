@@ -19,6 +19,7 @@ contract CryptoArticleFactory {
         bool approved;
         uint numBuyers;
         uint amount;
+        bool isPurchaseAvaliable;
         mapping (uint => Buyer) buyers; //represents a set of address that can read the article
         mapping (address => uint) addressToBuyer;
     }

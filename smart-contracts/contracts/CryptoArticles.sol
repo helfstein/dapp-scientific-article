@@ -5,9 +5,10 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./StringUtils.sol";
 import "./CryptoArticlesOwnable.sol";
+import "./CryptoArticlePurchase.sol";
 import "./CryptoArticleFactory.sol";
 
-contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, CryptoArticleFactory {
+contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, CryptoArticleFactory, CryptoArticlePurchase {
 //==========================================================================
 
     using SafeMath for uint256;
