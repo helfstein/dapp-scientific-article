@@ -35,7 +35,7 @@ contract CryptoArticleFactory {
         string _title, string _author, string _issn, string _category, 
         string _description, string _filePath, uint _price) internal returns (uint) {
 
-        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false, 0, 0)) - 1;
+        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false, 0, 0, false)) - 1;
         articleToOwner[id] = msg.sender;     
         return id;       
     }

@@ -59,8 +59,8 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
         uint[] memory articleIds;
         uint pos = 0;
         for (uint i = 0; i < articles.length; i++) {
-            Article article = articles[i];
-            if (article.addressToBuyer[msg.sender] > 0) {
+            // Article article = ;
+            if (articles[i].addressToBuyer[msg.sender] > 0) {
                 articleIds[pos] = i;
                 pos++;
             }
