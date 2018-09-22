@@ -5,51 +5,26 @@ import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./StringUtils.sol";
+import "./ArticleFactory.sol";
 
-contract ArticleContract is usingOraclize, Ownable, ERC721Token {
+contract CryptoArticles is usingOraclize, Ownable, ERC721Token, ArticleFactory {
 //==========================================================================
 
     using SafeMath for uint256;
     using StringUtils for *;
-
-    //It will represents a single scientific article
-    //Represents the buyer of the Article
-    struct Buyer {
-        address walletAddress; // (msg.sender)
-        uint amount; //total amount (msg.value)
-    }
-
-    //It will represents a single scientific article
-    struct Article {
-        string title; //represents a title
-        string author; //author name
-        string issn; //8 digit number for identify and validate the article ISSN (International Standard Serial Number)
-        string category;
-        string description; //a brief description for the article
-        string filePath; //the directory where the article will be storage
-        uint price;
-        bool approved;
-        uint numBuyers;
-        uint amount;
-        mapping (uint => Buyer) buyers; //represents a set of address that can read the article
-        mapping (address => uint) addressToBuyer;
-    }
-
-    mapping (uint => address) public articleToOwner;
-    mapping (bytes32 => uint) public pendingArticlesValidation;
-
+    
     modifier onlyBuyerOf(uint _articleId) {
         uint _buyerId = articles[_articleId].addressToBuyer[msg.sender];
         require(_buyerId > 0);
         _;
     }
 
-    Article[] private articles;
-
-    event NewArticle(uint articleId, string title, string author, string issn, string category, string description, uint price);
+    
     event ArticleApproved(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleRejected(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleBuyed(uint articleId, address buyer);
+
+
     //----------------------------------------------------------------------------
     constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
@@ -133,14 +108,7 @@ contract ArticleContract is usingOraclize, Ownable, ERC721Token {
         return(id);
     }
     //----------------------------------------------------------------------------
-    function _createArticle(
-        string _title, string _author, string _issn, string _category, 
-        string _description, string _filePath, uint _price) internal returns (uint) {
-
-        uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false, 0, 0)) - 1;
-        articleToOwner[id] = msg.sender;     
-        return id;       
-    }
+    
 
 //==========================================================================
 }
