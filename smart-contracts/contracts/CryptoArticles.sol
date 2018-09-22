@@ -1,13 +1,13 @@
 pragma solidity ^0.4.24;
 
 import "../installed_contracts/oraclize-api/contracts/usingOraclize.sol";
-import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./StringUtils.sol";
-import "./ArticleFactory.sol";
+import "./CryptoArticlesOwnable.sol";
+import "./CryptoArticleFactory.sol";
 
-contract CryptoArticles is usingOraclize, Ownable, ERC721Token, ArticleFactory {
+contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, CryptoArticleFactory {
 //==========================================================================
 
     using SafeMath for uint256;

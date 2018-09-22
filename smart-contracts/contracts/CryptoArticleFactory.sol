@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-contract ArticleFactory {
+contract CryptoArticleFactory {
 
     struct Buyer {
         address walletAddress; // (msg.sender)
