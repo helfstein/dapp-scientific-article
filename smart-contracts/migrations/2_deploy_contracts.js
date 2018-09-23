@@ -3,7 +3,7 @@ var CryptoArticles = artifacts.require("./CryptoArticles.sol");
 module.exports = function(deployer, network, accounts) {
     // Deploys the OraclizeTest contract and funds it with 0.5 ETH
     // The contract needs a balance > 0 to communicate with Oraclize
-    const oarAddress = 0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475;
+    const oarAddress = 0x617d1A1a3c8e8589bC5f5c1875a93909bFd92363;
     const name = "Articles";
     const symbol = "ART";
     deployer.deploy(CryptoArticles, oarAddress , name, symbol,{ 

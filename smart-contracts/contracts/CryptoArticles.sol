@@ -85,6 +85,7 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
             emit ArticleApproved(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
         }
         else{
+            emit ArticleRejected(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
             //reject article and informs his owner
         }
     }
@@ -96,7 +97,7 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
     //----------------------------------------------------------------------------
     function publishArticle(
         string _title, string _author, string _issn, string _category,   
-        string _description, string _filePath, uint _price) public payable returns(uint){
+        string _description, string _filePath, uint _price) public payable {
         
         string memory a = strConcat(" { 'title': '", _title, "', 'issn': '", _issn, "', 'author': '");
         string memory b = strConcat(_author, "', 'category': '", _category, "', 'description': '");
@@ -106,7 +107,7 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
         bytes32 queryId = oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
         
         pendingArticlesValidation[queryId] = id;
-        return(id);
+        
     }
     //----------------------------------------------------------------------------
     
