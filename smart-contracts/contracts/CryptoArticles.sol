@@ -27,9 +27,15 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
 
 
     //----------------------------------------------------------------------------
-    constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
+    // constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
-        OAR = OraclizeAddrResolverI(_oarAddress);
+    //     OAR = OraclizeAddrResolverI(_oarAddress);
+    //     oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
+
+    // }
+    constructor(string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
+
+        //OAR = OraclizeAddrResolverI(_oarAddress);
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 
     }
@@ -75,7 +81,7 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
         return (a.filePath, a.amount, a.numBuyers);
     }
     //----------------------------------------------------------------------------
-    function __callback(bytes32 _id, string _result, bytes _proof) public {
+    function __callback(bytes32 _id, string _result) public {
         require(msg.sender == oraclize_cbAddress(), "This address is not a valid coinbase");
         //change contract state
         if (keccak256(abi.encodePacked(_result)) == keccak256("true")) {
