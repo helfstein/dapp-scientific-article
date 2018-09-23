@@ -29,7 +29,16 @@ contract CryptoArticleFactory {
 
     Article[] internal articles;
 
-    event NewArticle(uint articleId);
+    event NewArticle(
+        uint articleId, 
+        string _title, 
+        string _author, 
+        string _issn, 
+        string _category, 
+        string _description, 
+        string _filePath, 
+        uint _price
+    );
 
     function _createArticle(
         string _title, string _author, string _issn, string _category, 
@@ -37,7 +46,7 @@ contract CryptoArticleFactory {
 
         uint id = articles.push(Article(_title, _author, _issn, _category, _description, _filePath, _price, false, 0, 0, false)) - 1;
         articleToOwner[id] = msg.sender;     
-        emit NewArticle(id);
+        emit NewArticle(id, _title, _author, _issn, _category, _description, _filePath, _price);
         return id;       
     }
 

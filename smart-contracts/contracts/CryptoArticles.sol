@@ -16,7 +16,7 @@ contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, Cr
     
     modifier onlyBuyerOf(uint _articleId) {
         uint _buyerId = articles[_articleId].addressToBuyer[msg.sender];
-        require(_buyerId > 0);
+        require(_buyerId > 0, "Access denied");
         _;
     }
 
