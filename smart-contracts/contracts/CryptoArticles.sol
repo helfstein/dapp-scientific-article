@@ -8,9 +8,8 @@ import "./CryptoArticlesOwnable.sol";
 import "./CryptoArticlePurchase.sol";
 import "./CryptoArticleFactory.sol";
 
-contract CryptoArticles is usingOraclize, CryptoArticlesOwnable, ERC721Token, CryptoArticleFactory, CryptoArticlePurchase {
-//==========================================================================
-
+contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, CryptoArticlesOwnable {
+    //==========================================================================
     using SafeMath for uint256;
     using StringUtils for *;
     

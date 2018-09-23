@@ -25,6 +25,7 @@ contract CryptoArticleFactory {
     }
 
     mapping (uint => address) internal articleToOwner;
+    mapping (address => uint) internal ownerArticleCount;
     mapping (bytes32 => uint) internal pendingArticlesValidation;
 
     Article[] internal articles;
