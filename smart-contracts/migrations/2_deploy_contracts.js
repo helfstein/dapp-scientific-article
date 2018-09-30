@@ -12,9 +12,9 @@ module.exports = function(deployer, network, accounts) {
     //     value: 5000000000000000000 
     // });
     deployer.deploy(CryptoArticles, name, symbol,{ 
-        from: accounts[1], 
+        from: accounts[0], 
         gas: 6721975, 
-        value: 5000000000000000000 
+        value: 500000000000000000000
     });
 };
 

@@ -5,7 +5,6 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./StringUtils.sol";
 import "./CryptoArticlesOwnable.sol";
-import "./CryptoArticlePurchase.sol";
 import "./CryptoArticleFactory.sol";
 
 contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, CryptoArticlesOwnable {
@@ -23,18 +22,20 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
     event ArticleApproved(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleRejected(uint articleId, string title, string author, string issn, string category, string description, uint price);
     event ArticleBuyed(uint articleId, address buyer);
-
+    //event CallbackReceived(string result);
 
     //----------------------------------------------------------------------------
     // constructor(address _oarAddress, string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
     //     OAR = OraclizeAddrResolverI(_oarAddress);
+    //     oraclize_setCustomGasPrice(800000000);
     //     oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 
     // }
     constructor(string _name, string _symbol) ERC721Token(_name, _symbol) public payable {
 
         //OAR = OraclizeAddrResolverI(_oarAddress);
+        //oraclize_setCustomGasPrice(4000000000);
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 
     }
@@ -52,14 +53,14 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
         return (_buyerId);
     }
     //----------------------------------------------------------------------------
-    function getArticle(uint articleID) public onlyBuyerOf(articleID) returns (string, string, string, 
+    function getArticle(uint articleID) public onlyBuyerOf(articleID) view returns (string, string, string, 
         string, string, uint, bool) {
         Article memory a = articles[articleID];
                 
         return (a.title, a.author, a.author, a.category, a.description, a.price, a.approved);
     }
     //----------------------------------------------------------------------------
-    function getBuyedArticles() public returns (uint[]) {
+    function getBuyedArticles() public view returns (uint[]) {
         
         uint[] memory articleIds;
         uint pos = 0;
@@ -75,22 +76,24 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
 
     }
     //----------------------------------------------------------------------------
-    function getArticleDetails(uint articleID) public onlyBuyerOf(articleID) returns (string, uint, uint){
+    function getArticleDetails(uint articleID) public onlyBuyerOf(articleID) view returns (string, uint, uint){
         Article memory a = articles[articleID];
         return (a.filePath, a.amount, a.numBuyers);
     }
     //----------------------------------------------------------------------------
-    function __callback(bytes32 _id, string _result) public {
+    function __callback(bytes32 id, string result, bytes proof) public {
+        //emit CallbackReceived(result);
         require(msg.sender == oraclize_cbAddress(), "This address is not a valid coinbase");
+        Article storage article = articles[pendingArticlesValidation[id]];
         //change contract state
-        if (keccak256(abi.encodePacked(_result)) == keccak256("true")) {
-            //approves article
-            Article storage article = articles[pendingArticlesValidation[_id]];
+        if (keccak256(abi.encodePacked(result)) == keccak256("true")) {
+            //estava só declarando a variavel aqui            
+            //Article storage article = articles[pendingArticlesValidation[id]];
             article.approved = true;
-            emit ArticleApproved(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
+            emit ArticleApproved(pendingArticlesValidation[id], article.title, article.author, article.issn, article.category, article.description, article.price);
         }
         else{
-            emit ArticleRejected(pendingArticlesValidation[_id], article.title, article.author, article.issn, article.category, article.description, article.price);
+            emit ArticleRejected(pendingArticlesValidation[id], article.title, article.author, article.issn, article.category, article.description, article.price);
             //reject article and informs his owner
         }
     }
@@ -109,10 +112,15 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
         string memory c = strConcat(_description, "'}");
         string memory payload = strConcat(a, b, c);
         uint id = _createArticle(_title, _author, _issn, _category, _description, _filePath, _price);
+        address(this).balance + msg.value;
         bytes32 queryId = oraclize_query("URL", "json(https://articledapp.azurewebsites.net/api/article).data.accepted", payload);
         
         pendingArticlesValidation[queryId] = id;
         
+    }
+    //----------------------------------------------------------------------------
+    function getBalance() public returns (uint _balance) {
+        return address(this).balance;
     }
     //----------------------------------------------------------------------------
     
