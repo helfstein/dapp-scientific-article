@@ -95,7 +95,7 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
         else{
             emit ArticleRejected(pendingArticlesValidation[id], article.title, article.author, article.issn, article.category, article.description, article.price);
             //reject article and informs his owner
-        }
+        } 
     }
     //----------------------------------------------------------------------------
     // Fallback function

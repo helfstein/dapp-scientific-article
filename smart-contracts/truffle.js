@@ -7,7 +7,7 @@ module.exports = {
           gas: 6721975,
           //gasPrice: 25000000000,
           //from: "0x6935cdf3fd206c2f43ee2f085c6e6ef48977ab01"
-      }
+      } 
   },
   solc: {
       optimizer: {
