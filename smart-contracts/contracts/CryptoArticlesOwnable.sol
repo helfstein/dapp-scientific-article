@@ -7,6 +7,12 @@ contract CryptoArticlesOwnable is Ownable, CryptoArticleFactory {
 
     mapping (uint => address) articlesApprovals;
 
+    modifier onlyOwnerOfArticle(uint articleID) {
+        // .addressToBuyer[msg.sender];
+        require(articleToOwner[articleID] == msg.sender, "Access denied");
+        _;
+    }
+
     function balanceOf(address _owner) public view returns (uint256 _balance) {
         return ownerArticleCount[_owner]; //returns how many tokens a owner has
     }
@@ -23,7 +29,7 @@ contract CryptoArticlesOwnable is Ownable, CryptoArticleFactory {
         //emit Transfer(_from, _to, _tokenId);
     }
 
-    function transfer(address _from, address _to, uint256 _tokenId) public onlyOwner() {
+    function transfer(address _from, address _to, uint256 _tokenId) public onlyOwnerOfArticle(_tokenId) {
         _transfer(_from, _to, _tokenId);
     }
       
