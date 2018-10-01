@@ -20,6 +20,7 @@ contract CryptoArticlesOwnable is Ownable, CryptoArticleFactory {
         ownerArticleCount[_from]--;
         articleToOwner[_tokenId] = _to;
         //emit a new event for transfer articles
+        //emit Transfer(_from, _to, _tokenId);
     }
 
     function transfer(address _from, address _to, uint256 _tokenId) public onlyOwner() {

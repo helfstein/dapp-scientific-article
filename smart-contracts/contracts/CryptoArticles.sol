@@ -53,11 +53,17 @@ contract CryptoArticles is usingOraclize, ERC721Token, CryptoArticleFactory, Cry
         return (_buyerId);
     }
     //----------------------------------------------------------------------------
-    function getArticle(uint articleID) public onlyBuyerOf(articleID) view returns (string, string, string, 
+    function getArticle(uint articleID) public view returns (string, string, string, 
         string, string, uint, bool) {
-        Article memory a = articles[articleID];
-                
-        return (a.title, a.author, a.author, a.category, a.description, a.price, a.approved);
+                        
+        return (
+            articles[articleID].title, 
+            articles[articleID].issn, 
+            articles[articleID].author, 
+            articles[articleID].category, 
+            articles[articleID].description, 
+            articles[articleID].price, 
+            articles[articleID].approved);
     }
     //----------------------------------------------------------------------------
     function getBuyedArticles() public view returns (uint[]) {
